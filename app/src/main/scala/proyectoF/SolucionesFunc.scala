@@ -16,14 +16,14 @@ class SolucionesFunc {
   }
 
   def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSecuencias(k: Int, secuencias: Seq[Set[Seq[Char]]]): Seq[Set[Seq[Char]]] = {
-        if (k > n) secuencias
+    def generarSubC(k: Int, subCadena: Seq[Set[Seq[Char]]]): Seq[Set[Seq[Char]]] = {
+        if (k > n) subCadena
         else {
-          val nSecuencias = secuencias(k-1).flatMap(s => alfabeto.map(c => s :+ c)).filter(o)
-          generarSecuencias(k+1, secuencias :+ nSecuencias)
+          val nSubC = subCadena(k-1).flatMap(s => alfabeto.map(c => s :+ c)).filter(o)
+          generarSubC(k+1, subCadena :+ nSubC)
         }
       }
-      val secuencias = generarSecuencias(1, Seq(Set(Seq())))
-      secuencias(n).find(_.length == n).getOrElse(Seq())
+      val subCadena = generarSubC(1, Seq(Set(Seq())))
+      subCadena(n).find(_.length == n).getOrElse(Seq())
   }
 }

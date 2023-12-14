@@ -6,7 +6,7 @@ import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class Test2Mejorada extends AnyFunSuite{
-  val a = new SolucionesFunc
+    val a = new SolucionesFunc
     val b = new FunOraculo
 
     test("Test 1"){
