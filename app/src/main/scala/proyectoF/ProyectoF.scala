@@ -16,8 +16,7 @@ object ProyectoF{
   def saludo() = "Proyecto Final 2023-II"
 
   def main(args: Array[String]): Unit = {
-    val a = new SolucionesFunc
-    val b = new FunOraculo
+
     println(saludo())
     println(
       withWarmer(new Warmer.Default) measure {
