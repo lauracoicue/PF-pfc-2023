@@ -23,5 +23,36 @@ object ProyectoF{
         (1 to 100000000).toArray
       }
     )
+
+    val a = new SolucionesFunc
+    val b = new FunOraculo 
+    val benchmark = new Benchmark();
+
+    for {
+      i <- 1 to 10
+      m1 = math.pow(2, i).toInt
+      val cadena = b.generarCadena(m1)
+      m2 = b.generarOraculo(cadena)
+    } yield {
+      println(s"****************************************")
+      println(s"Probando cadenas de ${math.pow(2, i).toInt}x${math.pow(2, i).toInt}");
+      val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
+        new SolucionesFunc().reconstruirCadenaTurbo,
+        new SolucionesFunc().reconstruirCadenaTurboMejorado
+      )(m1, m2);
+      println(s"Tiempo secuencial=   $t1");
+      println(s"Tiempo paralelo=   $t2");
+      println(s"Aceleración=   $aceleracion");
+
+    }
+
+    /*val n = 4
+    val cadena = b.generarCadena(n)
+    val oraculo = b.generarOraculo(cadena)
+    val resultado = a.reconstruirCadenaTurboMejorado(n, oraculo) 
+    val resultado1 = a.reconstruirCadenaTurbo(n, oraculo)
+    println(cadena)
+    println(resultado)
+    println(resultado1)*/
   }
  }

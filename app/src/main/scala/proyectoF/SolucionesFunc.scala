@@ -39,4 +39,25 @@ class SolucionesFunc {
     val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
   }
+
+  def reconstruirCadenaTurboMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def filtrar(subCadena: Set[Seq[Char]], k: Int): Set[Seq[Char]] = {
+      subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2))
+        .filter(s => (0 to s.length - k).forall(i => subCadena.exists(_ == s.drop(i).take(k))) && o(s))
+    }
+
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = filtrar(subCadena, k/2)
+        generarSubC(k*2, nSubC)
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+
 }
