@@ -2,6 +2,7 @@ package proyectoF
 
 class SolucionesFunc {
   val alfabeto = Seq('a', 'c', 'g', 't')
+  val trie = new Arbol
   type Oraculo = Seq[Char] => Boolean 
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
@@ -64,4 +65,9 @@ class SolucionesFunc {
     val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
   }
+/*
+  def reconstruirCadenaTurboMejorada(n: Int, o: Oraculo): Seq[Char] ={
+      def reconstruirAux(t:Arbol )
+  }
+*/
 }

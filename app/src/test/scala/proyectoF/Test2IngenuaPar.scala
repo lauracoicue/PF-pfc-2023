@@ -13,7 +13,7 @@ class Test2IngenuaPar extends AnyFunSuite{
     val n = 2
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(4)(n, oraculo)
     assert(resultado == cadena)
   }
 
@@ -21,7 +21,7 @@ class Test2IngenuaPar extends AnyFunSuite{
     val n = 4
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(4)(n, oraculo)
     assert(resultado == cadena)
   }
 
@@ -29,7 +29,7 @@ class Test2IngenuaPar extends AnyFunSuite{
     val n = 8
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(4)(n, oraculo)
     assert(resultado == cadena)
   }
 }
