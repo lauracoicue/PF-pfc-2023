@@ -6,14 +6,14 @@ import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class Test3Turbo extends AnyFunSuite{
-    val a = new SolucionesFunc
+    val a = new SolucionesFuncPar
     val b = new FunOraculo
 
     test("Test 1"){
         val n = 4
         val cadena = b.generarCadena(n)
         val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaTurbo(n, oraculo) 
+        val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(n, oraculo)
         assert(resultado == cadena)
     }
 
@@ -21,7 +21,7 @@ class Test3Turbo extends AnyFunSuite{
         val n = 8
         val cadena = b.generarCadena(n)
         val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaTurbo(n, oraculo) 
+        val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(n, oraculo)
         assert(resultado == cadena)
     }
 
@@ -29,7 +29,7 @@ class Test3Turbo extends AnyFunSuite{
         val n = 16
         val cadena = b.generarCadena(n)
         val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaTurbo(n, oraculo) 
+        val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(n, oraculo)
         assert(resultado == cadena)
     }
 
@@ -37,7 +37,7 @@ class Test3Turbo extends AnyFunSuite{
         val n = 64
         val cadena = b.generarCadena(n)
         val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaTurbo(n, oraculo) 
+        val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(n, oraculo)
         assert(resultado == cadena)
     }
 }

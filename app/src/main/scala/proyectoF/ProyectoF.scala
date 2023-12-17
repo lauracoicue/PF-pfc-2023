@@ -25,7 +25,8 @@ object ProyectoF{
     )
 
     val a = new SolucionesFunc
-    val b = new FunOraculo 
+    val b = new FunOraculo
+    val c= new SolucionesFuncPar
     val benchmark = new Benchmark();
 
     for {
@@ -37,11 +38,11 @@ object ProyectoF{
       println(s"****************************************")
       println(s"Probando cadenas de ${math.pow(2, i).toInt}x${math.pow(2, i).toInt}");
       val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
-        new SolucionesFunc().reconstruirCadenaTurbo,
-        new SolucionesFunc().reconstruirCadenaTurboMejorado
+        new SolucionesFuncPar().reconstruirCadenaMejoradoPar,
+        new SolucionesFunc().reconstruirCadenaMejorado
       )(m1, m2);
-      println(s"Tiempo secuencial=   $t1");
-      println(s"Tiempo paralelo=   $t2");
+      println(s"Paralelizada=   $t1");
+      println(s"Normal=   $t2");
       println(s"Aceleración=   $aceleracion");
 
     }

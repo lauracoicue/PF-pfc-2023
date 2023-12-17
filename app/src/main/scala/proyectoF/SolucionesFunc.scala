@@ -1,17 +1,19 @@
 package proyectoF
 
 class SolucionesFunc {
+  val Trie = new Arbol
   val alfabeto = Seq('a', 'c', 'g', 't')
-  type Oraculo = Seq[Char] => Boolean 
+  type Oraculo = Seq[Char] => Boolean
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
     def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
-      if (n == 0){
+      if (n == 0) {
         Seq(cadena)
       } else {
         alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
       }
     }
+
     generarCadena(n).find(o).getOrElse(Seq())
   }
 
@@ -23,19 +25,21 @@ class SolucionesFunc {
         generarSubC(k + 1, nSubC)
       }
     }
+
     val subCadena = generarSubC(1, Set(Seq()))
     subCadena.find(_.length == n).getOrElse(Seq())
   }
 
   def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
     def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
-      if (k > n) subCadena 
+      if (k > n) subCadena
       else {
         val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
-        generarSubC(k*2, nSubC)
+        generarSubC(k * 2, nSubC)
       }
     }
-    val ISubC = alfabeto.map(Seq(_)).toSet 
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
     val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
   }
@@ -47,17 +51,32 @@ class SolucionesFunc {
     }
 
     def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
-      if (k > n) subCadena 
+      if (k > n) subCadena
       else {
-        val nSubC = filtrar(subCadena, k/2)
-        generarSubC(k*2, nSubC)
+        val nSubC = filtrar(subCadena, k / 2)
+        generarSubC(k * 2, nSubC)
       }
     }
 
-    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val ISubC = alfabeto.map(Seq(_)).toSet
     val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
   }
+
+/*
+//reconstruir la cadena usando la funcion de arbol de sufijos
+  def reconstruirCadenaTurboAcelerada (n:Int , o:Oraculo) : Seq [ Char]= {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+        //utilizar la funcion arbol de sufijos
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
+        val nSubf = arbolDeSufijos(nSubC)
+        generarSubC(k * 2, nSubf: Trie)
+      }
+    }
+  }
+  */
 
 
 }

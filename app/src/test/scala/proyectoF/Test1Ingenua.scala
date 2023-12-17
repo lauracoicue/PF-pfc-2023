@@ -6,14 +6,14 @@ import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class Test1Ingenua extends AnyFunSuite{
-    val a = new SolucionesFunc
+    val a = new SolucionesFuncPar
     val b = new FunOraculo
 
     test("Test 1"){
         val n = 2
         val cadena = b.generarCadena(n)
         val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaIngenuo(n, oraculo) 
+        val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(n, oraculo)
         assert(resultado == cadena)
     }
 
@@ -21,7 +21,7 @@ class Test1Ingenua extends AnyFunSuite{
         val n = 4
         val cadena = b.generarCadena(n)
         val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaIngenuo(n, oraculo) 
+        val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(n, oraculo)
         assert(resultado == cadena)
     }
   
@@ -29,7 +29,7 @@ class Test1Ingenua extends AnyFunSuite{
         val n = 8
         val cadena = b.generarCadena(n)
         val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaIngenuo(n, oraculo) 
+        val resultado: Seq[Char] = a.reconstruirCadenaIngenuoPar(n, oraculo)
         assert(resultado == cadena)
     }
 }
