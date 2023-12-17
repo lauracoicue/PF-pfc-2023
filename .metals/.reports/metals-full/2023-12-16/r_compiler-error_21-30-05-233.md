@@ -1,25 +1,78 @@
-file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/taller4/SolucionesFunc.scala
-### java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 5. ValidFor: Period(1..2, run = 6)
+file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
+### java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 4. ValidFor: Period(1..2, run = 5)
 
 occurred in the presentation compiler.
 
 action parameters:
-uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/taller4/SolucionesFunc.scala
+offset: 689
+uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
 text:
 ```scala
+package proyectoF
+
 class SolucionesFunc {
   val alfabeto = Seq('a', 'c', 'g', 't')
   type Oraculo = Seq[Char] => Boolean 
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
-    def generarCadena(n: Int, cadena: Seq[Char] = Seq.empty): Seq[Seq[Char]] = {
-      if (n == 0){
-        Seq(cadena)
-      } else {
-        alfabeto.flatMap(caracter => generarCadena(n - 1, cadena :+ caracter))
+    def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
+      if (n == 0) Seq(cadena)
+      else {
+        alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
       }
     }
-    generarCadena(n).find(o).getOrElse(Seq.empty)
+    generarCadena(n).find(o).getOrElse(Seq())
+  }
+
+  def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = subCadena(k-1).flatMap(s1 => alfabeto.map(s2 => @@s1 ++ Seq(s2))).filter(o)
+        generarSubC(k + 1, nSubC)
+      }
+    }
+    val subCadena = generarSubC(1, Seq())
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+  def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
+        generarSubC(k*2, nSubC)
+      }
+    }
+    val ISubC = alfabeto.map(Seq(_))
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+  def reconstruirCadenaTurboMejorada(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = filtrar(subCadena, k)
+        generarSubC(k * 2, nSubC.filter(o))
+      }
+    }
+
+    def filtrar(subCadena: Seq[Seq[Char]], k: Int): Seq[Seq[Char]] = {
+      subCadena.flatMap { s1 =>
+        subCadena.flatMap { s2 =>
+          val s = s1 ++ s2
+          val subCDeS = s.sliding(k/2)
+          if (k == 2) Seq(s)
+          else if (subCDeS.forall(sub => subCadena.contains(sub))) Seq(s)
+          else Seq()
+        }
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_))
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
   }
 }
 
@@ -110,9 +163,10 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.Run.compileSources(Run.scala:194)
 	dotty.tools.dotc.interactive.InteractiveDriver.run(InteractiveDriver.scala:165)
 	scala.meta.internal.pc.MetalsDriver.run(MetalsDriver.scala:45)
-	scala.meta.internal.pc.SemanticdbTextDocumentProvider.textDocument(SemanticdbTextDocumentProvider.scala:33)
-	scala.meta.internal.pc.ScalaPresentationCompiler.semanticdbTextDocument$$anonfun$1(ScalaPresentationCompiler.scala:191)
+	scala.meta.internal.pc.PcCollector.<init>(PcCollector.scala:45)
+	scala.meta.internal.pc.PcDocumentHighlightProvider.<init>(PcDocumentHighlightProvider.scala:16)
+	scala.meta.internal.pc.ScalaPresentationCompiler.documentHighlight$$anonfun$1(ScalaPresentationCompiler.scala:168)
 ```
 #### Short summary: 
 
-java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 5. ValidFor: Period(1..2, run = 6)
+java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 4. ValidFor: Period(1..2, run = 5)

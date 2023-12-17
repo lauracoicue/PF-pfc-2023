@@ -17,6 +17,9 @@ object ProyectoF{
 
   def main(args: Array[String]): Unit = {
 
+    val a = new SolucionesFunc
+    val b = new FunOraculo 
+
     println(saludo())
     println(
       withWarmer(new Warmer.Default) measure {
@@ -24,9 +27,7 @@ object ProyectoF{
       }
     )
 
-    val a = new SolucionesFunc
-    val b = new FunOraculo 
-    val benchmark = new Benchmark();
+    /*val benchmark = new Benchmark();
 
     for {
       i <- 1 to 10
@@ -44,15 +45,6 @@ object ProyectoF{
       println(s"Tiempo paralelo=   $t2");
       println(s"Aceleración=   $aceleracion");
 
-    }
-
-    /*val n = 4
-    val cadena = b.generarCadena(n)
-    val oraculo = b.generarOraculo(cadena)
-    val resultado = a.reconstruirCadenaTurboMejorado(n, oraculo) 
-    val resultado1 = a.reconstruirCadenaTurbo(n, oraculo)
-    println(cadena)
-    println(resultado)
-    println(resultado1)*/
+    }*/
   }
- }
+}

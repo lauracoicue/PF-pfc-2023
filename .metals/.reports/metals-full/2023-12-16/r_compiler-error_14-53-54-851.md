@@ -1,55 +1,83 @@
-file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/test/scala/proyectoF/Test2Mejorada.scala
+file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/ProyectoF.scala
 ### java.lang.AssertionError: assertion failed: denotation object language invalid in run 3. ValidFor: Period(1..2, run = 4)
 
 occurred in the presentation compiler.
 
 action parameters:
-uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/test/scala/proyectoF/Test2Mejorada.scala
+uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/ProyectoF.scala
 text:
 ```scala
+/**
+  * Proyecto Final - Reconstrucción de cadenas
+  * Autores: <Laura Tatiana Coicue Poquiguegue - 2276652-3743 
+  *           Laura Sofía Peñaloza López - 2259485-3743
+  *           Esmeralda Rivas Guzmán - 2259580-3743>
+  * Profesor: Carlos A Delgado
+  */
 package proyectoF
 
-import org.scalatest.funsuite.AnyFunSuite
-import org.junit.runner.RunWith
-import org.scalatestplus.junit.JUnitRunner
+import org.scalameter.measure
+import org.scalameter.withWarmer
+import org.scalameter.Warmer
 
-@RunWith(classOf[JUnitRunner])
-class Test2Mejorada extends AnyFunSuite{
+object ProyectoF{
+
+  def saludo() = "Proyecto Final 2023-II"
+
+  def main(args: Array[String]): Unit = {
+
+    println(saludo())
+    println(
+      withWarmer(new Warmer.Default) measure {
+        (1 to 100000000).toArray
+      }
+    )
+
     val a = new SolucionesFunc
-    val b = new FunOraculo
+    val b = new FunOraculo 
+    /*val benchmark = new Benchmark();
 
-    test("Test 1"){
-        val n = 4
-        val cadena = b.generarCadena(n)
-        val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaMejorado(n, oraculo) 
-        assert(resultado == cadena)
-    }
+    for {
+      i <- 1 to 10
+      m1 = math.pow(2, i).toInt
+      val cadena = b.generarCadena(m1)
+      m2 = b.generarOraculo(cadena)
+    } yield {
+      println(s"****************************************")
+      println(s"Probando cadenas de ${math.pow(2, i).toInt}x${math.pow(2, i).toInt}");
+      val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
+        new SolucionesFunc().reconstruirCadenaTurbo,
+        new SolucionesFunc().reconstruirCadenaTurboMejorado
+      )(m1, m2);
+      println(s"Tiempo secuencial=   $t1");
+      println(s"Tiempo paralelo=   $t2");
+      println(s"Aceleración=   $aceleracion");
 
-    test("Test 2"){
-        val n = 8
-        val cadena = b.generarCadena(n)
-        val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaMejorado(n, oraculo) 
-        assert(resultado == cadena)
-    }
+    }*/
 
-    test("Test 3"){
-        val n = 16
-        val cadena = b.generarCadena(n)
-        val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaMejorado(n, oraculo) 
-        assert(resultado == cadena)
-    }
+    val n = 64
+    val cadena = b.generarCadena(n)
+    val oraculo = b.generarOraculo(cadena)
+    /*val resultado = a.reconstruirCadenaTurboMejorado(n, oraculo) 
+    val resultado1 = a.reconstruirCadenaTurbo(n, oraculo)
+    println(cadena)
+    println(resultado)
+    println(resultado1)*/
 
-    test("Test 4"){
-        val n = 64
-        val cadena = b.generarCadena(n)
-        val oraculo = b.generarOraculo(cadena)
-        val resultado: Seq[Char] = a.reconstruirCadenaMejorado(n, oraculo) 
-        assert(resultado == cadena)
+    //val (resultadoFinal, consultasOraculo) = a.reconstruirCadenaMejorado(n, oraculo)
+    //val (resultadoFinal, consultasOriginal) = a.reconstruirCadenaTurboOriginal(n, oraculo)
+    val resultadoFinal = a.reconstruirCadenaTurboMejorado(n, oraculo)
+    val resultadoFinal1 =a.reconstruirCadenaTurbo(n, oraculo)
+    //val (resultadoMejorada, consultasMejorada) = a.reconstruirCadenaTurboMejorada(n, oraculo)
+    //val resultado = a.reconstruirCadenaTurboMejorado(n, oraculo)
+    println(cadena)
+    //println(s"Consultas en la función mejorada: $consultasOraculo")
+    println(s"Consultas en la función original: $consultasOriginal")
+    //println(s"Consultas en la función mejorada: $consultas1")
+    println("Turbo: " + resultadoFinal)
+    println("Turbo Mejorado: " + resultadoFinal1)
     }
-}
+ }
 
 ```
 

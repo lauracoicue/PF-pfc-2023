@@ -1,10 +1,11 @@
-file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/taller4/Taller4.scala
-### java.lang.AssertionError: assertion failed: denotation object language invalid in run 3. ValidFor: Period(1..2, run = 4)
+file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/ProyectoF.scala
+### java.lang.AssertionError: assertion failed: denotation object language invalid in run 5. ValidFor: Period(1..2, run = 8)
 
 occurred in the presentation compiler.
 
 action parameters:
-uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/taller4/Taller4.scala
+offset: 2281
+uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/ProyectoF.scala
 text:
 ```scala
 /**
@@ -14,39 +15,67 @@ text:
   *           Esmeralda Rivas Guzmán - 2259580-3743>
   * Profesor: Carlos A Delgado
   */
-package taller4
+package proyectoF
 
 import org.scalameter.measure
 import org.scalameter.withWarmer
 import org.scalameter.Warmer
 
-object Taller4{
+object ProyectoF{
 
-  def saludo() = "Taller 4 2023-II"
+  def saludo() = "Proyecto Final 2023-II"
 
   def main(args: Array[String]): Unit = {
-    val a = new SolucionesFunc
-    val b = new FunOraculo
+
     println(saludo())
     println(
       withWarmer(new Warmer.Default) measure {
         (1 to 100000000).toArray
       }
     )
-    val n = 4
+
+    val a = new SolucionesFunc
+    val b = new FunOraculo 
+    /*val benchmark = new Benchmark();
+
+    for {
+      i <- 1 to 10
+      m1 = math.pow(2, i).toInt
+      val cadena = b.generarCadena(m1)
+      m2 = b.generarOraculo(cadena)
+    } yield {
+      println(s"****************************************")
+      println(s"Probando cadenas de ${math.pow(2, i).toInt}x${math.pow(2, i).toInt}");
+      val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
+        new SolucionesFunc().reconstruirCadenaTurbo,
+        new SolucionesFunc().reconstruirCadenaTurboMejorado
+      )(m1, m2);
+      println(s"Tiempo secuencial=   $t1");
+      println(s"Tiempo paralelo=   $t2");
+      println(s"Aceleración=   $aceleracion");
+
+    }*/
+
+    val n = 8
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaIngenuo(n, oraculo) 
-    println("Cadena: " + cadena)
-    println("Resultado: " + resultado)
+    /*val resultado = a.reconstruirCadenaTurboMejorado(n, oraculo) 
+    val resultado1 = a.reconstruirCadenaTurbo(n, oraculo)
+    println(cadena)
+    println(resultado)
+    println(resultado1)*/
 
-    val n1 = 15
-    val cadena1 = b.generarCadena(n1)
-    val oraculo1 = b.generarOraculo(cadena1)
-    val resultado1: Seq[Char] = a.reconstruirCadenaIngenuo(n1, oraculo1) 
-    println("Cadena: " + cadena1)
-    println("Resultado: " + resultado1)
-  }
+    //val (resultadoFinal, consultasOraculo) = a.reconstruirCadenaMejorado(n, oraculo)
+    val (resultadoOriginal, consultasOriginal) = a.reconstruirCadenaTurboOriginal(n, oraculo)
+    //val (resultadoMejorada, consultasMejorada) = a.reconstruirCadenaTurboMejorada(n, oraculo)
+    val resultado = a.reconstruirCadenaTurbo(n, oraculo)
+    println(cadena)
+    //println(s"Consultas en la función mejorada: $consultasOraculo")
+    println(s"Consultas en la función original: $consultasOriginal")
+    //println(s"Consultas en la función mejorada: $consultasMejorada")
+    println(resultadoOrgi@@)
+    println(resultado)
+    }
  }
 
 ```
@@ -58,6 +87,22 @@ object Taller4{
 ```
 scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.core.Denotations$SingleDenotation.updateValidity(Denotations.scala:717)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.bringForward(Denotations.scala:742)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.toNewRun$1(Denotations.scala:799)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.current(Denotations.scala:870)
+	dotty.tools.dotc.core.Symbols$Symbol.recomputeDenot(Symbols.scala:120)
+	dotty.tools.dotc.core.Symbols$Symbol.computeDenot(Symbols.scala:114)
+	dotty.tools.dotc.core.Symbols$Symbol.denot(Symbols.scala:107)
+	dotty.tools.dotc.core.Symbols$.toDenot(Symbols.scala:494)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.updateValidity(Denotations.scala:716)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.bringForward(Denotations.scala:742)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.toNewRun$1(Denotations.scala:799)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.current(Denotations.scala:870)
+	dotty.tools.dotc.core.Symbols$Symbol.recomputeDenot(Symbols.scala:120)
+	dotty.tools.dotc.core.Symbols$Symbol.computeDenot(Symbols.scala:114)
+	dotty.tools.dotc.core.Symbols$Symbol.denot(Symbols.scala:107)
+	dotty.tools.dotc.core.Symbols$.toDenot(Symbols.scala:494)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.updateValidity(Denotations.scala:716)
 	dotty.tools.dotc.core.Denotations$SingleDenotation.bringForward(Denotations.scala:742)
 	dotty.tools.dotc.core.Denotations$SingleDenotation.toNewRun$1(Denotations.scala:799)
 	dotty.tools.dotc.core.Denotations$SingleDenotation.current(Denotations.scala:870)
@@ -103,9 +148,9 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.Run.compileSources(Run.scala:194)
 	dotty.tools.dotc.interactive.InteractiveDriver.run(InteractiveDriver.scala:165)
 	scala.meta.internal.pc.MetalsDriver.run(MetalsDriver.scala:45)
-	scala.meta.internal.pc.SemanticdbTextDocumentProvider.textDocument(SemanticdbTextDocumentProvider.scala:33)
-	scala.meta.internal.pc.ScalaPresentationCompiler.semanticdbTextDocument$$anonfun$1(ScalaPresentationCompiler.scala:191)
+	scala.meta.internal.pc.SignatureHelpProvider$.signatureHelp(SignatureHelpProvider.scala:40)
+	scala.meta.internal.pc.ScalaPresentationCompiler.signatureHelp$$anonfun$1(ScalaPresentationCompiler.scala:388)
 ```
 #### Short summary: 
 
-java.lang.AssertionError: assertion failed: denotation object language invalid in run 3. ValidFor: Period(1..2, run = 4)
+java.lang.AssertionError: assertion failed: denotation object language invalid in run 5. ValidFor: Period(1..2, run = 8)

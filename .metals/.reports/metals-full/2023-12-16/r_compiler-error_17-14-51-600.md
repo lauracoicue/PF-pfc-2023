@@ -1,13 +1,14 @@
 file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/FunOraculo.scala
-### java.lang.AssertionError: assertion failed: phase cookComments has already been used once; cannot be reused
+### java.lang.AssertionError: assertion failed: phase parser has already been used once; cannot be reused
 
 occurred in the presentation compiler.
 
 action parameters:
+offset: 0
 uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/FunOraculo.scala
 text:
 ```scala
-package taller4
+@@package proyectoF
 import scala.util.Random
 
 class FunOraculo {
@@ -43,9 +44,10 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.Run.compileSources(Run.scala:194)
 	dotty.tools.dotc.interactive.InteractiveDriver.run(InteractiveDriver.scala:165)
 	scala.meta.internal.pc.MetalsDriver.run(MetalsDriver.scala:45)
-	scala.meta.internal.pc.SemanticdbTextDocumentProvider.textDocument(SemanticdbTextDocumentProvider.scala:33)
-	scala.meta.internal.pc.ScalaPresentationCompiler.semanticdbTextDocument$$anonfun$1(ScalaPresentationCompiler.scala:191)
+	scala.meta.internal.pc.PcCollector.<init>(PcCollector.scala:45)
+	scala.meta.internal.pc.PcDocumentHighlightProvider.<init>(PcDocumentHighlightProvider.scala:16)
+	scala.meta.internal.pc.ScalaPresentationCompiler.documentHighlight$$anonfun$1(ScalaPresentationCompiler.scala:168)
 ```
 #### Short summary: 
 
-java.lang.AssertionError: assertion failed: phase cookComments has already been used once; cannot be reused
+java.lang.AssertionError: assertion failed: phase parser has already been used once; cannot be reused
