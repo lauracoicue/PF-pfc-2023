@@ -1,9 +1,10 @@
 file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
-### java.lang.AssertionError: assertion failed: denotation object SolucionesFunc invalid in run 6. ValidFor: Period(1..5, run = 7)
+### java.lang.AssertionError: assertion failed: denotation object SolucionesFunc invalid in run 3. ValidFor: Period(1..5, run = 5)
 
 occurred in the presentation compiler.
 
 action parameters:
+offset: 1673
 uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
 text:
 ```scala
@@ -15,28 +16,66 @@ class SolucionesFunc {
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
     def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
-      if (n == 0){
-        Seq(cadena)
-      } else {
-        val nCadena = alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
-        println(nCadena.size)
-        nCadena
+      if (n == 0) Seq(cadena)
+      else {
+        alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
       }
     }
     generarCadena(n).find(o).getOrElse(Seq())
   }
 
   def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSecuencias(k: Int, secuencias: Seq[Set[Seq[Char]]]): Seq[Set[Seq[Char]]] = {
-        if (k > n) secuencias
-        else {
-          println(secuencias.size)
-          val nSecuencias = secuencias(k-1).flatMap(s => alfabeto.map(c => s :+ c)).filter(o)
-          generarSecuencias(k+1, secuencias :+ nSecuencias)
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = subCadena.flatMap(s1 => alfabeto.map(s2 => s1 ++ Seq(s2))).filter(o)
+        generarSubC(k + 1, nSubC)
+      }
+    }
+    val subCadena = generarSubC(1, Set(Seq()))
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+  def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
+        generarSubC(k*2, nSubC)
+      }
+    }
+    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+
+
+  def reconstruirCadenaTurboMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = filtrar(subCadena, k)
+        println("Mejorado : " + nSubC)
+        generarSubC(k * 2, nSubC.filter(o))
+      }
+    }
+
+    def filtrar(subCadena: Set@@[Seq[Char]], k: Int): Set[Seq[Char]] = {
+      subCadena.flatMap { s1 =>
+        subCadena.flatMap { s2 =>
+          val s = s1 ++ s2
+          val subCDeS = s.sliding(k)
+          if (k == 2) Set(s)
+          else if (subCDeS.forall(sub => sub.length == k && subCadena.contains(sub))) Set(s)
+          else Set.empty[Seq[Char]]
         }
       }
-      val secuencias = generarSecuencias(1, Seq(Set(Seq())))
-      secuencias(n).find(_.length == n).getOrElse(Seq())
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
   }
 }
 
@@ -96,9 +135,9 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.Run.compileSources(Run.scala:194)
 	dotty.tools.dotc.interactive.InteractiveDriver.run(InteractiveDriver.scala:165)
 	scala.meta.internal.pc.MetalsDriver.run(MetalsDriver.scala:45)
-	scala.meta.internal.pc.SemanticdbTextDocumentProvider.textDocument(SemanticdbTextDocumentProvider.scala:33)
-	scala.meta.internal.pc.ScalaPresentationCompiler.semanticdbTextDocument$$anonfun$1(ScalaPresentationCompiler.scala:191)
+	scala.meta.internal.pc.HoverProvider$.hover(HoverProvider.scala:34)
+	scala.meta.internal.pc.ScalaPresentationCompiler.hover$$anonfun$1(ScalaPresentationCompiler.scala:342)
 ```
 #### Short summary: 
 
-java.lang.AssertionError: assertion failed: denotation object SolucionesFunc invalid in run 6. ValidFor: Period(1..5, run = 7)
+java.lang.AssertionError: assertion failed: denotation object SolucionesFunc invalid in run 3. ValidFor: Period(1..5, run = 5)

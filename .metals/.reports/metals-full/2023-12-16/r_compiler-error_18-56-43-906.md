@@ -1,10 +1,10 @@
 file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
-### java.lang.AssertionError: assertion failed: denotation module class package$ invalid in run 3. ValidFor: Period(1..5, run = 4)
+### java.lang.AssertionError: assertion failed: denotation object Predef invalid in run 3. ValidFor: Period(1..5, run = 4)
 
 occurred in the presentation compiler.
 
 action parameters:
-offset: 1043
+offset: 1952
 uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
 text:
 ```scala
@@ -16,9 +16,8 @@ class SolucionesFunc {
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
     def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
-      if (n == 0){
-        Seq(cadena)
-      } else {
+      if (n == 0) Seq(cadena)
+      else {
         alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
       }
     }
@@ -26,19 +25,56 @@ class SolucionesFunc {
   }
 
   def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSubC(k: Int, subCadena: Seq[Set[Seq[Char]]]): Seq[Set[Seq[Char]]] = {
-        if (k > n) subCadena
-        else {
-          val nSubC = subCadena(k-1).flatMap(s => alfabeto.map(c => s :+ c)).filter(o)
-          generarSubC(k+1, subCadena :+ nSubC)
-        }
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = subCadena.flatMap(s1 => alfabeto.map(s2 => s1 ++ Seq(s2))).filter(o)
+        generarSubC(k + 1, nSubC)
       }
-      val subCadena = generarSubC(1, Seq(Set(Seq())))
-      subCadena(n).find(_.length == n).getOrElse(Seq())
+    }
+    val subCadena = generarSubC(1, Set(Seq()))
+    subCadena.find(_.length == n).getOrElse(Seq())
   }
 
   def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSubC(k: Int, subCadena: Seq[Set[Seq[Char]]]): Seq[S@@[Seq[Char]]
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
+        println("Turbo: " + nSubC)
+        generarSubC(k*2, nSubC)
+      }
+    }
+    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+
+  def reconstruirCadenaTurboMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = filtrar(subCadena.filter(o), k)
+        println("Mejorado : " + nSubC)
+        generarSubC(k * 2, nSubC)
+      }
+    }
+
+    def filtrar(subCadena: Set[Seq[Char]], k: Int): Set[Seq[Char]] = {
+      subCadena.flatMap { s1 =>
+        subCadena.flatMap { s2 =>
+          val s = s1 ++ s2
+          val subCDeS = s.sliding(k).toSet
+          if (subCDeS.forall(sub => sub.length == k && sobCadena.con@@tains(sub))) Set(s)
+          else Set.empty[Seq[Char]]
+        }
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
   }
 }
 
@@ -57,9 +93,23 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.core.Symbols$Symbol.recomputeDenot(Symbols.scala:120)
 	dotty.tools.dotc.core.Symbols$Symbol.computeDenot(Symbols.scala:114)
 	dotty.tools.dotc.core.Symbols$Symbol.denot(Symbols.scala:107)
-	dotty.tools.dotc.core.Symbols$ClassSymbol.classDenot(Symbols.scala:481)
-	dotty.tools.dotc.core.Symbols$.toClassDenot(Symbols.scala:497)
-	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler$.setClassInfo(Scala2Unpickler.scala:115)
+	dotty.tools.dotc.core.Symbols$.toDenot(Symbols.scala:494)
+	dotty.tools.dotc.core.classfile.ClassfileParser.unpickleTASTY$1(ClassfileParser.scala:923)
+	dotty.tools.dotc.core.classfile.ClassfileParser.unpickleOrParseInnerClasses(ClassfileParser.scala:991)
+	dotty.tools.dotc.core.classfile.ClassfileParser.parseClass(ClassfileParser.scala:189)
+	dotty.tools.dotc.core.classfile.ClassfileParser.$anonfun$1(ClassfileParser.scala:87)
+	dotty.tools.dotc.core.classfile.ClassfileParser.run(ClassfileParser.scala:82)
+	dotty.tools.dotc.core.ClassfileLoader.load(SymbolLoaders.scala:412)
+	dotty.tools.dotc.core.ClassfileLoader.doComplete(SymbolLoaders.scala:407)
+	dotty.tools.dotc.core.SymbolLoader$$anon$1.doComplete(SymbolLoaders.scala:325)
+	dotty.tools.dotc.core.SymbolLoader.complete(SymbolLoaders.scala:341)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.completeFrom(SymDenotations.scala:174)
+	dotty.tools.dotc.core.Denotations$Denotation.completeInfo$1(Denotations.scala:187)
+	dotty.tools.dotc.core.Denotations$Denotation.info(Denotations.scala:189)
+	dotty.tools.dotc.core.Definitions.patch2$1(Definitions.scala:1341)
+	dotty.tools.dotc.core.Definitions.patchWith$1(Definitions.scala:1363)
+	dotty.tools.dotc.core.Definitions.patchStdLibClass(Definitions.scala:1366)
+	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler$.setClassInfo(Scala2Unpickler.scala:129)
 	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler$LocalUnpickler.parseToCompletion$1(Scala2Unpickler.scala:615)
 	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler$LocalUnpickler.complete$$anonfun$1(Scala2Unpickler.scala:645)
 	scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
@@ -70,41 +120,26 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.core.Denotations$Denotation.info(Denotations.scala:189)
 	dotty.tools.dotc.core.Denotations$Denotation.completeInfo$1(Denotations.scala:187)
 	dotty.tools.dotc.core.Denotations$Denotation.info(Denotations.scala:189)
-	dotty.tools.dotc.core.SymDenotations$ClassDenotation.computeMembersNamed(SymDenotations.scala:2120)
-	dotty.tools.dotc.core.SymDenotations$ClassDenotation.membersNamed(SymDenotations.scala:2090)
-	dotty.tools.dotc.core.SymDenotations$ClassDenotation.membersNamedNoShadowingBasedOnFlags(SymDenotations.scala:2113)
-	dotty.tools.dotc.core.SymDenotations$ClassDenotation.nonPrivateMembersNamed(SymDenotations.scala:2103)
-	dotty.tools.dotc.core.SymDenotations$PackageClassDenotation.recur$5(SymDenotations.scala:2472)
-	dotty.tools.dotc.core.SymDenotations$PackageClassDenotation.computeMembersNamed(SymDenotations.scala:2539)
-	dotty.tools.dotc.core.SymDenotations$ClassDenotation.membersNamed(SymDenotations.scala:2090)
-	dotty.tools.dotc.core.SymDenotations$ClassDenotation.findMember(SymDenotations.scala:2141)
-	dotty.tools.dotc.core.Types$Type.go$1(Types.scala:695)
-	dotty.tools.dotc.core.Types$Type.findMember(Types.scala:874)
-	dotty.tools.dotc.core.Types$Type.memberBasedOnFlags(Types.scala:678)
-	dotty.tools.dotc.core.Types$Type.member(Types.scala:662)
-	dotty.tools.dotc.core.Denotations$.select$1(Denotations.scala:1306)
-	dotty.tools.dotc.core.Denotations$.recurSimple$1(Denotations.scala:1336)
-	dotty.tools.dotc.core.Denotations$.recur$1(Denotations.scala:1338)
-	dotty.tools.dotc.core.Denotations$.staticRef$$anonfun$1(Denotations.scala:1343)
-	dotty.tools.dotc.util.GenericHashMap.getOrElseUpdate(GenericHashMap.scala:134)
-	dotty.tools.dotc.core.Denotations$.staticRef(Denotations.scala:1343)
-	dotty.tools.dotc.core.Symbols$.requiredClass(Symbols.scala:898)
-	dotty.tools.dotc.core.Symbols$.requiredClassRef(Symbols.scala:904)
-	dotty.tools.dotc.core.Definitions.SeqType(Definitions.scala:534)
-	dotty.tools.dotc.core.Definitions.SeqClass(Definitions.scala:535)
-	dotty.tools.dotc.core.TypeApplications$.translateFromRepeated$extension(TypeApplications.scala:459)
-	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler$LocalUnpickler.parseToCompletion$1(Scala2Unpickler.scala:623)
-	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler$LocalUnpickler.complete$$anonfun$1(Scala2Unpickler.scala:645)
-	scala.runtime.java8.JFunction0$mcV$sp.apply(JFunction0$mcV$sp.scala:18)
-	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler.atReadPos(Scala2Unpickler.scala:318)
-	dotty.tools.dotc.core.unpickleScala2.Scala2Unpickler$LocalUnpickler.complete(Scala2Unpickler.scala:647)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.ensureCompleted(SymDenotations.scala:393)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.flags(SymDenotations.scala:66)
+	dotty.tools.dotc.core.SymDenotations$ModuleCompleter.complete(SymDenotations.scala:2777)
 	dotty.tools.dotc.core.SymDenotations$SymDenotation.completeFrom(SymDenotations.scala:174)
 	dotty.tools.dotc.core.Denotations$Denotation.completeInfo$1(Denotations.scala:187)
 	dotty.tools.dotc.core.Denotations$Denotation.info(Denotations.scala:189)
-	dotty.tools.dotc.core.Types$TermRef.underlying(Types.scala:2805)
-	dotty.tools.dotc.core.Types$Type.widen(Types.scala:1223)
-	dotty.tools.dotc.typer.Typer.simplify(Typer.scala:3125)
-	dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3114)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.ensureCompleted(SymDenotations.scala:393)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.flags(SymDenotations.scala:66)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.is(SymDenotations.scala:112)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.isStableMember(SymDenotations.scala:786)
+	dotty.tools.dotc.core.Types$Type.widenIfUnstable(Types.scala:1260)
+	dotty.tools.dotc.core.Types$Type.memberBasedOnFlags(Types.scala:676)
+	dotty.tools.dotc.typer.Typer.selection$1(Typer.scala:290)
+	dotty.tools.dotc.typer.Typer.wildImportRef$1(Typer.scala:348)
+	dotty.tools.dotc.typer.Typer.loop$1(Typer.scala:496)
+	dotty.tools.dotc.typer.Typer.findRefRecur$1(Typer.scala:514)
+	dotty.tools.dotc.typer.Typer.findRef(Typer.scala:517)
+	dotty.tools.dotc.typer.Typer.typedIdent(Typer.scala:576)
+	dotty.tools.dotc.typer.Typer.typedNamed$1(Typer.scala:3016)
+	dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3111)
 	dotty.tools.dotc.typer.Typer.typed(Typer.scala:3184)
 	dotty.tools.dotc.typer.Typer.typed(Typer.scala:3188)
 	dotty.tools.dotc.typer.Typer.typedExpr(Typer.scala:3300)
@@ -184,4 +219,4 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 ```
 #### Short summary: 
 
-java.lang.AssertionError: assertion failed: denotation module class package$ invalid in run 3. ValidFor: Period(1..5, run = 4)
+java.lang.AssertionError: assertion failed: denotation object Predef invalid in run 3. ValidFor: Period(1..5, run = 4)

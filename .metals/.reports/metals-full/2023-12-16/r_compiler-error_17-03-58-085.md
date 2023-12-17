@@ -1,25 +1,80 @@
-file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/taller4/SolucionesFunc.scala
-### java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 4. ValidFor: Period(1..2, run = 5)
+file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
+### java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 3. ValidFor: Period(1..2, run = 4)
 
 occurred in the presentation compiler.
 
 action parameters:
-uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/taller4/SolucionesFunc.scala
+offset: 1944
+uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
 text:
 ```scala
+package proyectoF
+
 class SolucionesFunc {
   val alfabeto = Seq('a', 'c', 'g', 't')
   type Oraculo = Seq[Char] => Boolean 
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
-    def generarCadena(n: Int, cadena: Seq[Char] = Seq.empty): Seq[Seq[Char]] = {
-      if (n == 0){
-        Seq(cadena)
-      } else {
-        alfabeto.flatMap(caracter => generarCadena(n - 1, cadena :+ caracter))
+    def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
+      if (n == 0) Seq(cadena)
+      else {
+        alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
       }
     }
-    generarCadena(n).find(o).getOrElse(Seq.empty)
+    generarCadena(n).find(o).getOrElse(Seq())
+  }
+
+  def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = subCadena.flatMap(s1 => alfabeto.map(s2 => s1 ++ Seq(s2))).filter(o)
+        generarSubC(k + 1, nSubC)
+      }
+    }
+    val subCadena = generarSubC(1, Set(Seq()))
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+  def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
+        println("Turbo: " + nSubC)
+        generarSubC(k*2, nSubC)
+      }
+    }
+    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+
+  def reconstruirCadenaTurboMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = filtrar(subCadena, k).filter(o)
+        println("Mejorado : " + nSubC)
+        generarSubC(k * 2, nSubC)
+      }
+    }
+
+    def filtrar(subCadena: Set[Seq[Char]], k: Int): Set[Seq[Char]] = {
+      subCadena.flatMap { s1 =>
+        subCadena.flatMap { s2 =>
+          val s = s1 ++ s2
+          val subCDeS = s.sliding(k).toSet
+          if (subCDeS.forall(sub => sub.length == k) && subC@@adena.constainsSlice(sub)) Set(s)
+          else Set.empty[Seq[Char]]
+        }
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
   }
 }
 
@@ -39,15 +94,22 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.core.Symbols$Symbol.computeDenot(Symbols.scala:114)
 	dotty.tools.dotc.core.Symbols$Symbol.denot(Symbols.scala:107)
 	dotty.tools.dotc.core.Symbols$.toDenot(Symbols.scala:494)
-	dotty.tools.dotc.core.Denotations$SingleDenotation.updateValidity(Denotations.scala:716)
-	dotty.tools.dotc.core.Denotations$SingleDenotation.bringForward(Denotations.scala:742)
-	dotty.tools.dotc.core.Denotations$SingleDenotation.toNewRun$1(Denotations.scala:799)
-	dotty.tools.dotc.core.Denotations$SingleDenotation.current(Denotations.scala:870)
-	dotty.tools.dotc.core.Types$NamedType.computeDenot(Types.scala:2364)
-	dotty.tools.dotc.core.Types$NamedType.denot(Types.scala:2324)
-	dotty.tools.dotc.ast.Trees$DenotingTree.denot(Trees.scala:256)
-	dotty.tools.dotc.typer.Typer.simplify(Typer.scala:3124)
-	dotty.tools.dotc.typer.Typer.typedUnadapted(Typer.scala:3114)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.isCoDefinedWith(SymDenotations.scala:747)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.companionNamed$$anonfun$1(SymDenotations.scala:1300)
+	dotty.tools.dotc.core.Denotations$SingleDenotation.suchThat(Denotations.scala:636)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.companionNamed(SymDenotations.scala:1300)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.scalacLinkedClass(SymDenotations.scala:1286)
+	dotty.tools.dotc.core.SymbolLoader.complete(SymbolLoaders.scala:369)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.completeFrom(SymDenotations.scala:174)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.completeOnce(SymDenotations.scala:385)
+	dotty.tools.dotc.core.SymDenotations$SymDenotation.unforcedDecls(SymDenotations.scala:409)
+	dotty.tools.dotc.core.SymDenotations$ClassDenotation.typeParamsFromDecls(SymDenotations.scala:1857)
+	dotty.tools.dotc.core.SymDenotations$ClassDenotation.typeParams(SymDenotations.scala:1870)
+	dotty.tools.dotc.core.TypeApplications$.typeParams$extension(TypeApplications.scala:183)
+	dotty.tools.dotc.core.TypeApplications$.typeParamSymbols$extension(TypeApplications.scala:220)
+	dotty.tools.dotc.typer.Typer.adaptType$1(Typer.scala:4180)
+	dotty.tools.dotc.typer.Typer.adapt1(Typer.scala:4267)
+	dotty.tools.dotc.typer.Typer.adapt(Typer.scala:3587)
 	dotty.tools.dotc.typer.Typer.typed(Typer.scala:3184)
 	dotty.tools.dotc.typer.Typer.typed(Typer.scala:3188)
 	dotty.tools.dotc.typer.Typer.typedType(Typer.scala:3303)
@@ -103,9 +165,9 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 	dotty.tools.dotc.Run.compileSources(Run.scala:194)
 	dotty.tools.dotc.interactive.InteractiveDriver.run(InteractiveDriver.scala:165)
 	scala.meta.internal.pc.MetalsDriver.run(MetalsDriver.scala:45)
-	scala.meta.internal.pc.SemanticdbTextDocumentProvider.textDocument(SemanticdbTextDocumentProvider.scala:33)
-	scala.meta.internal.pc.ScalaPresentationCompiler.semanticdbTextDocument$$anonfun$1(ScalaPresentationCompiler.scala:191)
+	scala.meta.internal.pc.HoverProvider$.hover(HoverProvider.scala:34)
+	scala.meta.internal.pc.ScalaPresentationCompiler.hover$$anonfun$1(ScalaPresentationCompiler.scala:342)
 ```
 #### Short summary: 
 
-java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 4. ValidFor: Period(1..2, run = 5)
+java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 3. ValidFor: Period(1..2, run = 4)

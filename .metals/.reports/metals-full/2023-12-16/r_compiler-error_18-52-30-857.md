@@ -4,7 +4,7 @@ file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-202
 occurred in the presentation compiler.
 
 action parameters:
-offset: 1024
+offset: 1914
 uri: file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
 text:
 ```scala
@@ -16,9 +16,8 @@ class SolucionesFunc {
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
     def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
-      if (n == 0){
-        Seq(cadena)
-      } else {
+      if (n == 0) Seq(cadena)
+      else {
         alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
       }
     }
@@ -26,19 +25,56 @@ class SolucionesFunc {
   }
 
   def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSubC(k: Int, subCadena: Seq[Set[Seq[Char]]]): Seq[Set[Seq[Char]]] = {
-        if (k > n) subCadena
-        else {
-          val nSubC = subCadena(k-1).flatMap(s => alfabeto.map(c => s :+ c)).filter(o)
-          generarSubC(k+1, subCadena :+ nSubC)
-        }
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = subCadena.flatMap(s1 => alfabeto.map(s2 => s1 ++ Seq(s2))).filter(o)
+        generarSubC(k + 1, nSubC)
       }
-      val subCadena = generarSubC(1, Seq(Set(Seq())))
-      subCadena(n).find(_.length == n).getOrElse(Seq())
+    }
+    val subCadena = generarSubC(1, Set(Seq()))
+    subCadena.find(_.length == n).getOrElse(Seq())
   }
 
   def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSubC(k: Int, subCadena: Seq[Ser[@@]])
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
+        println("Turbo: " + nSubC)
+        generarSubC(k*2, nSubC)
+      }
+    }
+    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+
+  def reconstruirCadenaTurboMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = filtrar(subCadena, k).filter(o)
+        println("Mejorado : " + nSubC)
+        generarSubC(k * 2, nSubC)
+      }
+    }
+
+    def filtrar(subCadena: Set[Seq[Char]], k: Int): Set[Seq[Char]] = {
+      subCadena.flatMap { s1 =>
+        subCadena.flatMap { s2 =>
+          val s = s1 ++ s2
+          val subCDeS = s.sliding(k).toSet
+          if (subCDeS.forall((@@sub => sub.length == k) && sub => subcadena.contains(sub))) Set(s)
+          else Set.empty[Seq[Char]]
+        }
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
   }
 }
 

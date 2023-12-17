@@ -1,5 +1,5 @@
 file:///C:/Users/usuario/OneDrive/Escritorio/PROGRAMACION%20FUNCIONAL/PF-pfc-2023/app/src/main/scala/proyectoF/SolucionesFunc.scala
-### java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 3. ValidFor: Period(1..2, run = 4)
+### java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 6. ValidFor: Period(1..2, run = 7)
 
 occurred in the presentation compiler.
 
@@ -15,9 +15,8 @@ class SolucionesFunc {
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
     def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
-      if (n == 0){
-        Seq(cadena)
-      } else {
+      if (n == 0) Seq(cadena)
+      else {
         alfabeto.flatMap(s => generarCadena(n - 1, cadena :+ s))
       }
     }
@@ -25,28 +24,132 @@ class SolucionesFunc {
   }
 
   def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSubC(k: Int, subCadena: Seq[Set[Seq[Char]]]): Seq[Set[Seq[Char]]] = {
-        if (k > n) subCadena
-        else {
-          val nSubC = subCadena(k-1).flatMap(s => alfabeto.map(c => s :+ c)).filter(o)
-          generarSubC(k+1, subCadena :+ nSubC)
-        }
-      }
-      val subCadena = generarSubC(1, Seq(Set(Seq())))
-      subCadena(n).find(_.length == n).getOrElse(Seq())
-  }
-
-  def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
     def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
       if (k > n) subCadena
       else {
-        val nSubC = subCadena.flatMap(s => subCadena.map(s1 => s ++ s1)).filter(o)
+        val nSubC = subCadena.flatMap(s1 => alfabeto.map(s2 => s1 ++ Seq(s2))).filter(o)
+        generarSubC(k + 1, nSubC)
+      }
+    }
+    val subCadena = generarSubC(1, Set(Seq()))
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }
+
+  
+
+
+  /*def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter(o))
         generarSubC(k*2, nSubC)
       }
     }
-    val subCadena = generarSubC(1, alfabeto.map(Seq(_)).toSet)
+    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
+  }*/
+
+  def reconstruirCadenaTurboOriginal(n: Int, o: Oraculo): (Seq[Char], Int) = {
+    var consultasOraculo = 0
+
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2).filter { s =>
+          consultasOraculo += 1
+          o(s)
+        })
+        generarSubC(k * 2, nSubC)
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
+    val subCadena = generarSubC(2, ISubC)
+    val resultadoFinal = subCadena.find(_.length == n).getOrElse(Seq())
+
+    (resultadoFinal, consultasOraculo)
   }
+
+
+  /*def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena
+      else {
+        val nSubC = filtrarSubCadenas(subCadena, k, o)
+        println(nSubC)
+        generarSubC(k * 2, nSubC)
+      }
+    }
+
+    def filtrarSubCadenas(SC: Set[Seq[Char]], k: Int, o: Oraculo): Set[Seq[Char]] = {
+      SC.flatMap { s1 =>
+        SC.flatMap { s2 =>
+          val s = s1 ++ s2
+          if (s1.takeRight(k) == s2.take(k) && o(s.take(k))) Set(s)
+          else Set.empty[Seq[Char]]
+        }
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }*/
+
+
+  def reconstruirCadenaTurboMejorada(n: Int, o: Oraculo): (Seq[Char], Int) = {
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]], consultas: Int): (Set[Seq[Char]], Int) = {
+      if (k > n) (subCadena, consultas)
+      else {
+        val (nSubC, nuevasConsultas) = filtrar(subCadena, k / 2, o)
+        generarSubC(k * 2, nSubC, consultas + nuevasConsultas)
+      }
+    }
+
+    def filtrar(SC: Set[Seq[Char]], k: Int, o: Oraculo): (Set[Seq[Char]], Int) = {
+      var consultas = 0
+      val nuevoSC = SC.flatMap { s1 =>
+        SC.collect {
+          case s2 if s1.take(k) == s2.takeRight(k) =>
+            val s = s1 ++ s2.drop(k)
+            consultas += 1
+            if (o(s.take(k))) s
+            else Seq.empty[Char]
+        }
+      }
+      (nuevoSC, consultas)
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet
+    val (subCadena, consultas) = generarSubC(2, ISubC, 0)
+    val resultadoFinal = subCadena.find(_.length == n).getOrElse(Seq())
+
+    (resultadoFinal, consultas)
+  }
+
+  
+  /*def reconstruirCadenaTurboMejorado(n: Int, o: Oraculo): Seq[Char] = {
+    def filtrar(subCadena: Set[Seq[Char]], k: Int): Set[Seq[Char]] = {
+      subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2))
+        .filter(s => (0 to s.length - k).forall(i => subCadena.exists(_ == s.drop(i).take(k))) && o(s))
+    }
+
+    def generarSubC(k: Int, subCadena: Set[Seq[Char]]): Set[Seq[Char]] = {
+      if (k > n) subCadena 
+      else {
+        val nSubC = subCadena.flatMap(s1 => subCadena.map(s2 => s1 ++ s2))
+        val nSubC = filtrar(nSubC, k/2)
+        generarSubC(k*2, nSubC)
+      }
+    }
+
+    val ISubC = alfabeto.map(Seq(_)).toSet 
+    val subCadena = generarSubC(2, ISubC)
+    subCadena.find(_.length == n).getOrElse(Seq())
+  }*/
+
 }
 
 ```
@@ -141,4 +244,4 @@ scala.runtime.Scala3RunTime$.assertFailed(Scala3RunTime.scala:8)
 ```
 #### Short summary: 
 
-java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 3. ValidFor: Period(1..2, run = 4)
+java.lang.AssertionError: assertion failed: denotation class Unit invalid in run 6. ValidFor: Period(1..2, run = 7)
