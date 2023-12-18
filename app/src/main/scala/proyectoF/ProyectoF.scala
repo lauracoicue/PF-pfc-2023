@@ -50,7 +50,7 @@ object ProyectoF{
 
     //MEJORADA
     for {
-      i <- 1 to 8
+      i <- 1 to 9
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
@@ -69,7 +69,7 @@ object ProyectoF{
 
     //TURBO
     for {
-      i <- 1 to 8
+      i <- 1 to 9
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
@@ -89,7 +89,7 @@ object ProyectoF{
 
     //TURBOMEJORADA
     for {
-      i <- 1 to 10
+      i <- 1 to 9
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
