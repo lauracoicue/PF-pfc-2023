@@ -122,35 +122,41 @@ class SolucionesFuncPar {
         }
       }
 
-  def reconstruirCadenaTurboAcelerada(n: Int, o: Oraculo): Seq[Char] = {
-    def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
-      if (k >= n) subCadena
-      else {
-        val (p1,p2) = parallel(subCadena.take(subCadena.length/2).flatMap { s1 =>
-          subCadena.flatMap { s2 =>
-            Seq(s1 ++ s2)
-          }
-        },subCadena.drop(subCadena.length/2).flatMap { s1 =>
-          subCadena.flatMap { s2 =>
-            Seq(s1 ++ s2)
-          }
-        })
-        val SCactual = filtrar(p1++p2, subCadena, k)
-        val SCkFiltrado = SCactual.filter(o)
-        generarSubC(k * 2, SCkFiltrado)
+  def reconstruirCadenaTurboAcelerada(umbral:Int)(n: Int, o: Oraculo): Seq[Char] = {
+    if (umbral<=n) {
+      funcSecuencial.reconstruirCadenaTurboAcelerada(n, o)
+    }
+    else {
+      def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
+        if (k >= n) subCadena
+        else {
+          val (p1, p2) = parallel(subCadena.take(subCadena.length / 2).flatMap { s1 =>
+            subCadena.flatMap { s2 =>
+              Seq(s1 ++ s2)
+            }
+          }, subCadena.drop(subCadena.length / 2).flatMap { s1 =>
+            subCadena.flatMap { s2 =>
+              Seq(s1 ++ s2)
+            }
+          })
+          val SCactual = filtrar(p1 ++ p2, subCadena, k)
+          val SCkFiltrado = SCactual.filter(o)
+          generarSubC(k * 2, SCkFiltrado)
+        }
       }
-    }
 
-    def filtrar(Cactual: Seq[Seq[Char]], Canterior: Seq[Seq[Char]], k: Int): Seq[Seq[Char]] = {
-      if (Cactual.head.length > 2) {
-        val t = trie.arbolDeSufijos(Canterior)
-        Cactual.filter { s1 => 0 to s1.length - k forall { i => trie.pertenece(s1.slice(i, i + k), t) } }
-      } else Cactual
-    }
+      def filtrar(Cactual: Seq[Seq[Char]], Canterior: Seq[Seq[Char]], k: Int): Seq[Seq[Char]] = {
+        if (Cactual.head.length > 2) {
+          val t = trie.arbolDeSufijos(Canterior)
+          val (p1, p2) = parallel(Cactual.take(Cactual.length / 2).filter { s1 => 0 to s1.length - k forall { i => trie.pertenece(s1.slice(i, i + k), t) } },
+            Cactual.drop(Cactual.length / 2).filter { s1 => 0 to s1.length - k forall { i => trie.pertenece(s1.slice(i, i + k), t) } })
+          p1 ++ p2
+        } else Cactual
+      }
 
-    val ISubC = alfabeto.map(Seq(_)).filter(o)
-    val subCadena = generarSubC(1, ISubC)
-    subCadena.head
+      val ISubC = alfabeto.map(Seq(_)).filter(o)
+      val subCadena = generarSubC(1, ISubC)
+      subCadena.head
+    }
   }
-
 }

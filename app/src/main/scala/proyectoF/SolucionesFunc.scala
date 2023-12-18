@@ -69,6 +69,7 @@ class SolucionesFunc {
   }
 
   def reconstruirCadenaTurboAcelerada(n: Int, o: Oraculo): Seq[Char] = {
+
     def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
       if (k >= n) subCadena
       else {
