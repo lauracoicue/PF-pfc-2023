@@ -27,7 +27,7 @@ En PF-pfc-2023/app/src/main/scala/proyectoF/ se cuenta con 6 archivos.scala, ent
   * *reconstruirCadenaTurbo*
   * *reconstruirCadenaTurboMejorada*
   * *reconstruirCadenaTurboAcelerada*
-* **SolucionesFuncPar:** Contiene las funciones paralelas de cada una de las secuenciales. Para este caso, se usó paralelismo de tareas.
+* **SolucionesFuncPar:** Contiene las funciones paralelas de cada una de las secuenciales. Para este caso, se usó paralelismo de datos.
   * *reconstruirCadenaIngenuoPar*
   * *reconstruirCadenaMejoradoPar*
   * *reconstruirCadenaTurboPar*
