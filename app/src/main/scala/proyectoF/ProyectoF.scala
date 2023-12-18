@@ -118,7 +118,7 @@ object ProyectoF{
       println(s"****************************************")
       println(s"Algoritmo turbo acelerado ${math.pow(2, i).toInt}");
       val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
-        new SolucionesFuncPar().reconstruirCadenaTurboAcelerada(128),
+        new SolucionesFuncPar().reconstruirCadenaTurboAceleradaPar(128),
         new SolucionesFunc().reconstruirCadenaTurboAcelerada
       )(m1, m2);
       println(s"Paralelizada=   $t1");

@@ -158,7 +158,7 @@ class SolucionesFuncPar {
    * @param o : Oraculo, indica su la subcadena hace parte de la cadena
    * @return Seq[Char] Cadena resultante
    */
-  def reconstruirCadenaTurboAcelerada(umbral:Int)(n: Int, o: Oraculo): Seq[Char] = {
+  def reconstruirCadenaTurboAceleradaPar(umbral:Int)(n: Int, o: Oraculo): Seq[Char] = {
     if (umbral<=n) {
       funcSecuencial.reconstruirCadenaTurboAcelerada(n, o)
     }
