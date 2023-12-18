@@ -5,7 +5,15 @@ import scala.annotation.tailrec
 class SolucionesFunc {
   val alfabeto = Seq('a', 'c', 'g', 't')
   val trie = new Arbol
-  type Oraculo = Seq[Char] => Boolean 
+  type Oraculo = Seq[Char] => Boolean
+
+  /**
+   * Reconstruir cadena de forma Ingenua
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
 
   def reconstruirCadenaIngenuo(n: Int, o: Oraculo): Seq[Char] = {
     def generarCadena(n: Int, cadena: Seq[Char] = Seq()): Seq[Seq[Char]] = {
@@ -17,6 +25,14 @@ class SolucionesFunc {
     generarCadena(n).find(o).getOrElse(Seq())
   }
 
+
+  /**
+   * Reconstruir cadena de forma Mejorada
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
   def reconstruirCadenaMejorado(n: Int, o: Oraculo): Seq[Char] = {
     def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
       if (k > n) subCadena
@@ -28,6 +44,14 @@ class SolucionesFunc {
     val subCadena = generarSubC(1, Seq(Seq()))
     subCadena.find(_.length == n).getOrElse(Seq())
   }
+
+  /**
+   * Reconstruir cadena de forma Turbo
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
 
   def reconstruirCadenaTurbo(n: Int, o: Oraculo): Seq[Char] = {
     def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
@@ -41,6 +65,13 @@ class SolucionesFunc {
     val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
   }
+
+  /**
+   * Reconstruir cadena de forma Turbo Mejorada
+   * @param n: Int cantidad de caracteres de la cadena
+   * @param o: Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
 
   def reconstruirCadenaTurboMejorada(n: Int, o: Oraculo): Seq[Char] = {
     def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
@@ -67,6 +98,13 @@ class SolucionesFunc {
     val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
   }
+
+  /**
+   * Reconstruir cadena de forma Turbo Acelerada
+   * @param n: Int cantidad de caracteres de la cadena
+   * @param o: Oraculo, indica si la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
 
   def reconstruirCadenaTurboAcelerada(n: Int, o: Oraculo): Seq[Char] = {
 

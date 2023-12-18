@@ -10,6 +10,13 @@ class SolucionesFuncPar {
   val alfabeto = Seq('a', 'c', 'g', 't')
   type Oraculo = Seq[Char] => Boolean
 
+  /**
+   * Reconstruir cadena de forma Ingenua paralela
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
   def reconstruirCadenaIngenuoPar(umbral: Int)(n: Int, o: Oraculo): Seq[Char] = {
     if (umbral<=n) {
       funcSecuencial.reconstruirCadenaIngenuo(n, o)
@@ -36,6 +43,13 @@ class SolucionesFuncPar {
 
   }
 
+  /**
+   * Reconstruir cadena de forma Mejorada paralela
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
       def reconstruirCadenaMejoradoPar(umbral:Int)(n: Int, o: Oraculo): Seq[Char] = {
         if(umbral<=n){
           funcSecuencial.reconstruirCadenaMejorado(n, o)
@@ -61,6 +75,14 @@ class SolucionesFuncPar {
         }
       }
 
+
+  /**
+   * Reconstruir cadena de forma Turbo paralela
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
       def reconstruirCadenaTurboPar(umbral:Int)(n: Int, o: Oraculo): Seq[Char] = {
         if(umbral<=n){
           funcSecuencial.reconstruirCadenaTurbo(n, o)
@@ -81,7 +103,13 @@ class SolucionesFuncPar {
         }
       }
 
-
+  /**
+   * Reconstruir cadena de forma Turbo Mejorada paralela
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
       def reconstruirCadenaTurboMejoradaPar(umbral:Int)(n: Int, o: Oraculo): Seq[Char] = {
         if(umbral<=n){
           funcSecuencial.reconstruirCadenaTurboMejorada(n, o)
@@ -122,6 +150,14 @@ class SolucionesFuncPar {
         }
       }
 
+
+  /**
+   * Reconstruir cadena de forma Turbo Acelerada paralela
+   *
+   * @param n : Int cantidad de caracteres de la cadena
+   * @param o : Oraculo, indica su la subcadena hace parte de la cadena
+   * @return Seq[Char] Cadena resultante
+   */
   def reconstruirCadenaTurboAcelerada(umbral:Int)(n: Int, o: Oraculo): Seq[Char] = {
     if (umbral<=n) {
       funcSecuencial.reconstruirCadenaTurboAcelerada(n, o)

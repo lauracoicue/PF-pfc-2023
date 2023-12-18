@@ -22,6 +22,12 @@ class Arbol {
     }
   }
 
+  /**
+   * Funcion que determina si una secuencia de caracteres pertenece a un Trie
+   * @param s: Seq[Char] secuencia de caracteres
+   * @param t: Trie
+   * @return Boolean Devuelve true si la secuencia de caracteres pertenece al Trie
+   */
   def pertenece(s: Seq[Char], t: Trie): Boolean = {
     if (s.isEmpty) {
       t match {
@@ -70,7 +76,11 @@ class Arbol {
     adicionaraux(t, Seq.empty[Char], s)
   }
 
-
+  /**
+   * Arbol de sufijos
+   * @param ss: Seq[Seq[Char]] secuencia de secuencias de caracteres
+   * @return Trie Devuelve el Trie correcpondiente al arbol de sufijos
+   */
 
   def arbolDeSufijos(ss: Seq[Seq[Char]]): Trie = {
     ss.foldLeft(Nodo('_', false, List()): Trie)((t, s) => adicionar(s, t))
