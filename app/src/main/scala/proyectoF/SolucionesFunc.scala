@@ -65,9 +65,31 @@ class SolucionesFunc {
     val subCadena = generarSubC(2, ISubC)
     subCadena.find(_.length == n).getOrElse(Seq())
   }
-/*
-  def reconstruirCadenaTurboMejorada(n: Int, o: Oraculo): Seq[Char] ={
-      def reconstruirAux(t:Arbol )
+
+  def reconstruirCadenaTurboAcelerada(tamano: Int, o: Oraculo): Seq[Char] = {
+    def filtrar(cadenaActual: Seq[Seq[Char]], cadenaAnterior: Seq[Seq[Char]], k: Int): Seq[Seq[Char]] = {
+      if (cadenaActual.head.length > 2) {
+        val t = trie.arbolDeSufijos(cadenaAnterior)
+        cadenaActual.filter { s1 => 0 to s1.length - k forall { i => trie.pertenece(s1.slice(i, i + k), t) } }
+      } else cadenaActual
+    }
+
+    def subcaden_candidatas(k: Int, SC: Seq[Seq[Char]]): Seq[Seq[Char]] = {
+      if (k >= tamano) SC else {
+        val SCk = SC.flatMap { s1 =>
+          SC.flatMap { s2 =>
+            Seq(s1 ++ s2)
+          }
+        }
+        val SCactual = filtrar(SCk, SC, k)
+        val SCkFiltrado = SCactual.filter(o)
+        subcaden_candidatas(k * 2, SCkFiltrado)
+      }
+    }
+
+    val Alfab = alfabeto.map(Seq(_)).filter(o)
+    val SC = subcaden_candidatas(1, Alfab)
+    SC.head
   }
-*/
+
 }

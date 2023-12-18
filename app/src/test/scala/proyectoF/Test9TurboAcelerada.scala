@@ -5,15 +5,15 @@ import org.junit.runner.RunWith
 import org.scalatestplus.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class Test6TurboPar extends AnyFunSuite{
-  val a = new SolucionesFuncPar
+class Test9TurboAcelerada extends AnyFunSuite{
+  val a = new SolucionesFunc
   val b = new FunOraculo
 
   test("Test 1"){
     val n = 4
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(4)(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboAcelerada(n, oraculo)
     assert(resultado == cadena)
   }
 
@@ -21,7 +21,7 @@ class Test6TurboPar extends AnyFunSuite{
     val n = 8
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(4)(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboAcelerada(n, oraculo)
     assert(resultado == cadena)
   }
 
@@ -29,15 +29,15 @@ class Test6TurboPar extends AnyFunSuite{
     val n = 16
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(4)(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboAcelerada(n, oraculo)
     assert(resultado == cadena)
   }
 
   test("Test 4"){
-    val n = 64
+    val n = 128
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboPar(4)(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboAcelerada(n, oraculo)
     assert(resultado == cadena)
   }
 }

@@ -13,7 +13,7 @@ class Test8TurboMejoradaPar extends AnyFunSuite{
     val n = 4
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(4)(n, oraculo)
     assert(resultado == cadena)
   }
 
@@ -21,7 +21,7 @@ class Test8TurboMejoradaPar extends AnyFunSuite{
     val n = 8
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(4)(n, oraculo)
     assert(resultado == cadena)
   }
 
@@ -29,7 +29,7 @@ class Test8TurboMejoradaPar extends AnyFunSuite{
     val n = 16
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(4)(n, oraculo)
     assert(resultado == cadena)
   }
 
@@ -37,7 +37,7 @@ class Test8TurboMejoradaPar extends AnyFunSuite{
     val n = 64
     val cadena = b.generarCadena(n)
     val oraculo = b.generarOraculo(cadena)
-    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(n, oraculo)
+    val resultado: Seq[Char] = a.reconstruirCadenaTurboMejoradaPar(4)(n, oraculo)
     assert(resultado == cadena)
   }
 }

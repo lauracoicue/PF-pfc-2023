@@ -28,7 +28,7 @@ object ProyectoF{
     val b = new FunOraculo
     val c= new SolucionesFuncPar
     val benchmark = new Benchmark();
-
+/*
     //INGENUA
     for {
       i <- 1 to 6
@@ -45,7 +45,7 @@ object ProyectoF{
       println(s"Paralelizada=   $t1");
       println(s"Normal=   $t2");
       println(s"Aceleración=   $aceleracion");
-
+*/
     }
 /*
     //MEJORADA
@@ -66,7 +66,7 @@ object ProyectoF{
       println(s"Aceleración=   $aceleracion");
 
     }
-*/
+*//*
     //TURBO
     for {
       i <- 1 to 10
@@ -85,7 +85,8 @@ object ProyectoF{
       println(s"Aceleración=   $aceleracion");
 
     }
-/*
+*/
+  /*
     //TURBOMEJORADA
     for {
       i <- 1 to 10
@@ -115,5 +116,6 @@ object ProyectoF{
     println(cadena)
     println(resultado)
     println(resultado1)*/
-  }
+
+
  }
