@@ -42,7 +42,12 @@ class Arbol {
     }
   }
 
-
+  /**
+   * Funcion que adiciona una cadena en el trie
+   * @param s: Seq[Char] secuencia de caracteres
+   * @param t: Trie
+   * @return Trie Devuelve el Trie al adicionar s a t
+   */
   def adicionar(s: Seq[Char], t: Trie): Trie = {
     def nueva(s: Seq[Char]): Trie = {
       s match {

@@ -12,7 +12,7 @@ class SolucionesFuncPar {
 
   /**
    * Reconstruir cadena de forma Ingenua paralela
-   *
+   * @param umbral: Int Determina si se aplica la funcion secuencial o paralela 
    * @param n : Int cantidad de caracteres de la cadena
    * @param o : Oraculo, indica su la subcadena hace parte de la cadena
    * @return Seq[Char] Cadena resultante
@@ -45,7 +45,7 @@ class SolucionesFuncPar {
 
   /**
    * Reconstruir cadena de forma Mejorada paralela
-   *
+   * @param umbral: Int Determina si se aplica la funcion secuencial o paralela
    * @param n : Int cantidad de caracteres de la cadena
    * @param o : Oraculo, indica su la subcadena hace parte de la cadena
    * @return Seq[Char] Cadena resultante
@@ -78,7 +78,7 @@ class SolucionesFuncPar {
 
   /**
    * Reconstruir cadena de forma Turbo paralela
-   *
+   * @param umbral: Int Determina si se aplica la funcion secuencial o paralela
    * @param n : Int cantidad de caracteres de la cadena
    * @param o : Oraculo, indica su la subcadena hace parte de la cadena
    * @return Seq[Char] Cadena resultante
@@ -105,7 +105,7 @@ class SolucionesFuncPar {
 
   /**
    * Reconstruir cadena de forma Turbo Mejorada paralela
-   *
+   * @param umbral: Int Determina si se aplica la funcion secuencial o paralela
    * @param n : Int cantidad de caracteres de la cadena
    * @param o : Oraculo, indica su la subcadena hace parte de la cadena
    * @return Seq[Char] Cadena resultante
@@ -153,7 +153,7 @@ class SolucionesFuncPar {
 
   /**
    * Reconstruir cadena de forma Turbo Acelerada paralela
-   *
+   * @param umbral: Int Determina si se aplica la funcion secuencial o paralela
    * @param n : Int cantidad de caracteres de la cadena
    * @param o : Oraculo, indica su la subcadena hace parte de la cadena
    * @return Seq[Char] Cadena resultante
