@@ -1,5 +1,7 @@
 package proyectoF
 
+import scala.annotation.tailrec
+
 class SolucionesFunc {
   val alfabeto = Seq('a', 'c', 'g', 't')
   val trie = new Arbol
@@ -66,30 +68,28 @@ class SolucionesFunc {
     subCadena.find(_.length == n).getOrElse(Seq())
   }
 
-  def reconstruirCadenaTurboAcelerada(tamano: Int, o: Oraculo): Seq[Char] = {
-    def filtrar(cadenaActual: Seq[Seq[Char]], cadenaAnterior: Seq[Seq[Char]], k: Int): Seq[Seq[Char]] = {
-      if (cadenaActual.head.length > 2) {
-        val t = trie.arbolDeSufijos(cadenaAnterior)
-        cadenaActual.filter { s1 => 0 to s1.length - k forall { i => trie.pertenece(s1.slice(i, i + k), t) } }
-      } else cadenaActual
-    }
-
-    def subcaden_candidatas(k: Int, SC: Seq[Seq[Char]]): Seq[Seq[Char]] = {
-      if (k >= tamano) SC else {
-        val SCk = SC.flatMap { s1 =>
-          SC.flatMap { s2 =>
+  def reconstruirCadenaTurboAcelerada(n: Int, o: Oraculo): Seq[Char] = {
+    def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
+      if (k >= n) subCadena else {
+        val nSubC = subCadena.flatMap { s1 =>
+          subCadena.flatMap { s2 =>
             Seq(s1 ++ s2)
           }
         }
-        val SCactual = filtrar(SCk, SC, k)
+        val SCactual = filtrar(nSubC, subCadena, k)
         val SCkFiltrado = SCactual.filter(o)
-        subcaden_candidatas(k * 2, SCkFiltrado)
+        generarSubC(k * 2, SCkFiltrado)
       }
     }
-
-    val Alfab = alfabeto.map(Seq(_)).filter(o)
-    val SC = subcaden_candidatas(1, Alfab)
-    SC.head
+    def filtrar(Cactual: Seq[Seq[Char]], Canterior: Seq[Seq[Char]], k: Int): Seq[Seq[Char]] = {
+      if (Cactual.head.length > 2) {
+        val t = trie.arbolDeSufijos(Canterior)
+        Cactual.filter { s1 => 0 to s1.length - k forall { i => trie.pertenece(s1.slice(i, i + k), t) } }
+      } else Cactual
+    }
+    val ISubC = alfabeto.map(Seq(_)).filter(o)
+    val subCadena = generarSubC(1, ISubC)
+    subCadena.head
   }
 
 }

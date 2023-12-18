@@ -5,6 +5,7 @@ import common.{parallel, task}
 import common._
 class SolucionesFuncPar {
 
+  val trie = new Arbol
   val funcSecuencial = new SolucionesFunc
   val alfabeto = Seq('a', 'c', 'g', 't')
   type Oraculo = Seq[Char] => Boolean
@@ -120,5 +121,6 @@ class SolucionesFuncPar {
           subCadena.find(_.length == n).getOrElse(Seq())
         }
       }
+
 
 }

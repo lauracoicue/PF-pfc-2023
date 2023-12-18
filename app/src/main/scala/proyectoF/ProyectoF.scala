@@ -26,12 +26,12 @@ object ProyectoF{
 
     val a = new SolucionesFunc
     val b = new FunOraculo
-    val c= new SolucionesFuncPar
+    val c = new SolucionesFuncPar
     val benchmark = new Benchmark();
 /*
     //INGENUA
     for {
-      i <- 1 to 6
+      i <- 1 to 3
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
@@ -45,18 +45,18 @@ object ProyectoF{
       println(s"Paralelizada=   $t1");
       println(s"Normal=   $t2");
       println(s"Aceleración=   $aceleracion");
-*/
+
     }
-/*
+
     //MEJORADA
     for {
-      i <- 1 to 10
+      i <- 1 to 8
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
     } yield {
       println(s"****************************************")
-      println(s"Probando cadenas de ${math.pow(2, i).toInt}x${math.pow(2, i).toInt}");
+      println(s"Algoritmo mejorada de ${math.pow(2, i).toInt}x${math.pow(2, i).toInt}");
       val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
         new SolucionesFuncPar().reconstruirCadenaTurboMejoradaPar(8),
         new SolucionesFunc().reconstruirCadenaTurboMejorada
@@ -66,10 +66,10 @@ object ProyectoF{
       println(s"Aceleración=   $aceleracion");
 
     }
-*//*
+
     //TURBO
     for {
-      i <- 1 to 10
+      i <- 1 to 8
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
@@ -86,18 +86,18 @@ object ProyectoF{
 
     }
 */
-  /*
+
     //TURBOMEJORADA
     for {
-      i <- 1 to 10
+      i <- 1 to 15
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
     } yield {
       println(s"****************************************")
-      println(s"Probando cadenas de ${math.pow(2, i).toInt}");
+      println(s"Algoritmo turbo mejorado ${math.pow(2, i).toInt}");
       val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
-        new SolucionesFuncPar().reconstruirCadenaTurboMejoradaPar(8),
+        new SolucionesFuncPar().reconstruirCadenaTurboMejoradaPar(64),
         new SolucionesFunc().reconstruirCadenaTurboMejorada
       )(m1, m2);
       println(s"Paralelizada=   $t1");
@@ -106,7 +106,7 @@ object ProyectoF{
 
     }
 
-*/
+  }
 
     /*val n = 4
     val cadena = b.generarCadena(n)
