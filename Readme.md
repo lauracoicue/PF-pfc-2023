@@ -1,3 +1,4 @@
 # Proyecto Final  - Fundamentos de programación funcional y concurrente
 
-Implementción de multiplicación concurrente de matrices
+El problema de la reconstrucción de cadenas
+
