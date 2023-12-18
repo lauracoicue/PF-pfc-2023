@@ -89,7 +89,7 @@ object ProyectoF{
 
     //TURBOMEJORADA
     for {
-      i <- 1 to 15
+      i <- 1 to 10
       m1 = math.pow(2, i).toInt
       val cadena = b.generarCadena(m1)
       m2 = b.generarOraculo(cadena)
@@ -97,8 +97,8 @@ object ProyectoF{
       println(s"****************************************")
       println(s"Algoritmo turbo mejorado ${math.pow(2, i).toInt}");
       val (t1, t2, aceleracion) = benchmark.compararAlgoritmos(
-        new SolucionesFuncPar().reconstruirCadenaTurboMejoradaPar(64),
-        new SolucionesFunc().reconstruirCadenaTurboMejorada
+        new SolucionesFuncPar().reconstruirCadenaTurboAcelerada,
+        new SolucionesFunc().reconstruirCadenaTurboAcelerada
       )(m1, m2);
       println(s"Paralelizada=   $t1");
       println(s"Normal=   $t2");

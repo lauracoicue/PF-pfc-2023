@@ -70,7 +70,8 @@ class SolucionesFunc {
 
   def reconstruirCadenaTurboAcelerada(n: Int, o: Oraculo): Seq[Char] = {
     def generarSubC(k: Int, subCadena: Seq[Seq[Char]]): Seq[Seq[Char]] = {
-      if (k >= n) subCadena else {
+      if (k >= n) subCadena
+      else {
         val nSubC = subCadena.flatMap { s1 =>
           subCadena.flatMap { s2 =>
             Seq(s1 ++ s2)
